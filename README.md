@@ -153,51 +153,38 @@ return true;
 
 ## ⚙️ Configuration
 
-### Azure AD
-
-**Informations de l'application :**
-- **Client ID** : `5bf82499-0633-4bf8-a702-f9d03c51e43f`
-- **Tenant ID** : `56940f28-0a79-4f24-a0cd-b963e7866e9b`
-- **Redirect URI** : `http://localhost:4200`
-
-**App Roles configurés :**
-```json
-[
-  {
-    "displayName": "Task Reader",
-    "value": "Task.Reader",
-    "description": "Read-only access to tasks"
-  },
-  {
-    "displayName": "Task Writer",
-    "value": "Task.Writer",
-    "description": "Full access to create and edit tasks"
-  }
-]
-```
-
-### Configuration MSAL (`auth-config.ts`)
-
-```typescript
-export const msalConfig = {
-  auth: {
-    clientId: '5bf82499-0633-4bf8-a702-f9d03c51e43f',
-    authority: 'https://login.microsoftonline.com/56940f28-0a79-4f24-a0cd-b963e7866e9b',
-    redirectUri: 'http://localhost:4200'
-  },
-  cache: {
-    cacheLocation: BrowserCacheLocation.LocalStorage,
-    storeAuthStateInCookie: false
-  }
-};
-```
-
-## 📦 Installation
-
 ### Prérequis
 - Node.js 18+ 
 - Angular CLI 18+
 - Compte Azure avec accès à Azure AD
+
+### Configuration de l'environnement
+
+1. **Copier le fichier d'exemple :**
+   ```bash
+   cp src/environments/environment.example.ts src/environments/environment.ts
+   ```
+
+2. **Configurer vos identifiants Azure AD :**
+   
+   Éditez `src/environments/environment.ts` et remplacez :
+   ```typescript
+   export const environment = {
+     production: false,
+     azure: {
+       clientId: 'VOTRE_CLIENT_ID',      // Client ID depuis Azure Portal
+       tenantId: 'VOTRE_TENANT_ID',      // Tenant ID depuis Azure Portal
+       redirectUri: 'http://localhost:4200'
+     }
+   };
+   ```
+
+3. **Récupérer vos identifiants Azure AD :**
+   - Allez sur [Azure Portal](https://portal.azure.com)
+   - **Microsoft Entra ID** → **App registrations** → Votre application
+   - **Client ID** : Visible sur la page Overview
+   - **Tenant ID** : Visible sur la page Overview
+   - **Redirect URI** : Configuré dans Authentication
 
 ### Étapes d'installation
 
@@ -209,10 +196,14 @@ cd demo-msal
 # 2. Installer les dépendances
 npm install
 
-# 3. Lancer l'application
+# 3. Configurer l'environnement (voir ci-dessus)
+cp src/environments/environment.example.ts src/environments/environment.ts
+# Éditez environment.ts avec vos identifiants
+
+# 4. Lancer l'application
 ng serve
 
-# 4. Ouvrir dans le navigateur
+# 5. Ouvrir dans le navigateur
 # http://localhost:4200
 ```
 
